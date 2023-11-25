@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript task</title>
+</head>
+<body>
+    <div class="container"><h2>User Data</h2></div>
+    <div class="container">
+        <form id="myForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="skill">Skill:</label>
+            <input type="text" id="skill" name="skill" required>
+
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
+    <div class="container">
+    <div id="displayData"></div></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const myForm = document.getElementById("myForm");
+            const displayDataContainer = document.getElementById("displayData");
+
+            myForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById("username").value;
+                const email = document.getElementById("email").value;
+                const address = document.getElementById("address").value;
+                const skill = document.getElementById("skill").value;
+
+                const formData = {
+                    username: username,
+                    email: email,
+                    address: address,
+                    skill: skill
+                };
+
+                localStorage.setItem("formData", JSON.stringify(formData));
+
+                displayFormData();
+               
+            });
+
+            function displayFormData() {
+                const storedData = localStorage.getItem("formData");
+                if (storedData) {
+                    const parsedData = JSON.parse(storedData);
+                    const card = document.createElement("div");
+                    card.classList.add("card");
+
+                    card.innerHTML = `
+                        <p><strong>Username:</strong> ${parsedData.username}</p>
+                        <p><strong>Email:</strong> ${parsedData.email}</p>
+                        <p><strong>Address:</strong> ${parsedData.address}</p>
+                        <p><strong>Skill:</strong> ${parsedData.skill}</p>
+                    `;
+
+                    displayDataContainer.appendChild(card);
+                }
+            }
+
+            displayFormData();
+        });
+    </script>
+</body>
+</html>
